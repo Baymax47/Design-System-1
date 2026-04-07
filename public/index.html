@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Startup 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <div class="hero">
+      <div class="badge">Ready to Build</div>
+      <h1>Project Startup 1</h1>
+      <p>Your development environment is set up and ready. Start building something great.</p>
+      <div class="status-grid">
+        <div class="status-card" id="server-status">
+          <span class="dot"></span>
+          <span>Server</span>
+          <strong>Online</strong>
+        </div>
+        <div class="status-card" id="ai-status">
+          <span class="dot"></span>
+          <span>OpenRouter</span>
+          <strong>Checking...</strong>
+        </div>
+      </div>
+      <button id="test-btn" onclick="testAI()">Test AI Connection</button>
+      <pre id="output" class="output hidden"></pre>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
