@@ -32,7 +32,7 @@ function renderSwatches(containerId, colors) {
   const el = document.getElementById(containerId);
   if (!el) return;
   el.innerHTML = colors.map(c => `
-    <div class="ds-swatch" title="Click to copy ${c.hex}" onclick="copyText('${c.hex}', this)">
+    <div class="ds-swatch" tabindex="0" role="button" title="Click or Press Enter to copy ${c.hex}" onclick="copyText('${c.hex}', this)">
       <div class="ds-swatch-box" style="background:${c.hex}"></div>
       <span class="ds-swatch-label">${c.stop}</span>
     </div>
@@ -68,6 +68,17 @@ async function copyText(text, el) {
   }
 }
 window.copyText = copyText;
+
+/* ─── Keyboard Accessibility Handler ──────────────────────────────────────── */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const active = document.activeElement;
+    if (active && (active.classList.contains('ds-swatch') || active.classList.contains('ds-semantic-swatch'))) {
+      e.preventDefault();
+      active.click();
+    }
+  }
+});
 
 /* ─── Theme switcher ──────────────────────────────────────────────────────── */
 function initTheme() {

@@ -11,8 +11,8 @@
   --border:    #1e1e30;
   --accent:    #7c6ef7;
   --text:      #e8e8f0;
-  --muted:     #6b6b80;
-  --subtle:    #4f4f62;
+  --muted:     #8a8a9f; /* Updated for WCAG AA Contrast */
+  --subtle:    #6b6b80; /* Updated for WCAG AA Contrast */
   --sidebar-w: 220px;
 }
 
@@ -23,7 +23,7 @@
   --border:   #dcdcec;
   --text:     #111118;
   --muted:    #5a5a70;
-  --subtle:   #9090aa;
+  --subtle:   #70708a; /* Updated for WCAG AA Contrast */
 }
 
 html { scroll-behavior: smooth; }
@@ -35,7 +35,16 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   min-height: 100vh;
-  transition: background 300ms ease, color 300ms ease;
+}
+
+/* ─── Accessibility Focus ────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.btn:focus-visible, .nav-link:focus-visible, .ds-swatch:focus-visible, .ds-semantic-swatch:focus-visible {
+  border-radius: inherit;
 }
 
 /* ─── Nav overrides ──────────────────────────────────────────── */
@@ -244,6 +253,12 @@ body {
   align-items: center;
   gap: 5px;
   cursor: pointer;
+  border-radius: 10px;
+  padding: 4px; /* Give visual padding for focus ring */
+  transition: opacity 150ms ease;
+}
+.ds-swatch:hover {
+  opacity: 0.9;
 }
 
 .ds-swatch-box {
@@ -432,7 +447,13 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--subtle); }
 
-/* ─── Light mode card overrides ──────────────────────────────── */
+/* ─── Code Block overflow ──────────────────────────────────────── */
+.code-block, pre {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* ─── Light mode overrides ───────────────────────────────────── */
 [data-theme="light"] .card {
   background: var(--surface);
   border-color: var(--border);
