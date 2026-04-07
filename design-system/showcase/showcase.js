@@ -56,15 +56,15 @@ function renderSpacing() {
 async function copyText(text, el) {
   try {
     await navigator.clipboard.writeText(text);
-    const label = el?.querySelector('.ds-swatch-label');
+    const label = el?.querySelector('.ds-swatch-label, code');
     if (label) {
       const prev = label.textContent;
-      label.textContent = '✓';
+      label.textContent = 'Copied!';
       setTimeout(() => { label.textContent = prev; }, 1200);
     }
-    Toast.success('Copied!', text, { duration: 1800 });
+    window.Toast?.success('Copied!', text, { duration: 1800 });
   } catch {
-    Toast.error('Copy failed', 'Please copy manually.');
+    window.Toast?.error('Copy failed', 'Please copy manually.');
   }
 }
 window.copyText = copyText;
@@ -89,22 +89,44 @@ function applyTheme(theme) {
   if (btn) btn.textContent = theme === 'dark' ? '🌙' : '☀️';
 }
 
-/* ─── Active sidebar nav link on scroll ───────────────────────────────────── */
-function initScrollSpy() {
-  const sections = document.querySelectorAll('.ds-section[id]');
-  const links    = document.querySelectorAll('.sidenav-link[data-section], .nav-link[data-section]');
-  if (!sections.length || !links.length) return;
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        links.forEach(l => l.classList.toggle('active', l.dataset.section === id));
-      }
+/* ─── SPA Hash Router ─────────────────────────────────────────────────────── */
+function initRouter() {
+  const pages = document.querySelectorAll('.ds-page[id]');
+  const links = document.querySelectorAll('.sidenav-link[data-section], .nav-link[data-section]');
+  
+  function route() {
+    let hash = window.location.hash.substring(1) || 'tokens';
+    const targetId = 'page-' + hash;
+    
+    // Fallback if target doesn't exist
+    if (!document.getElementById(targetId)) {
+      hash = 'tokens';
+    }
+    
+    // Update active nav link
+    links.forEach(l => l.classList.toggle('active', l.dataset.section === hash));
+    
+    // Show active page, hide others
+    pages.forEach(p => {
+      const isActive = p.id === 'page-' + hash;
+      p.classList.toggle('is-active', isActive);
     });
-  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    
+    window.scrollTo(0, 0);
+  }
 
-  sections.forEach(s => observer.observe(s));
+  // Handle link clicks to update hash cleanly
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const section = link.dataset.section;
+      history.pushState(null, null, '#' + section);
+      route();
+    });
+  });
+
+  window.addEventListener('hashchange', route);
+  route(); // Init on load
 }
 
 /* ─── Figma export button ────────────────────────────────────────────────── */
@@ -142,10 +164,19 @@ function initMobileNav() {
   const hamburger = document.getElementById('nav-hamburger');
   const links     = document.getElementById('nav-links');
 
-  hamburger?.addEventListener('click', () => {
+  function toggle() {
     const open = links.classList.toggle('is-open');
     hamburger.classList.toggle('is-open', open);
     hamburger.setAttribute('aria-expanded', open);
+  }
+
+  hamburger?.addEventListener('click', toggle);
+
+  // Close on nav link click
+  links?.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      if (links.classList.contains('is-open')) toggle();
+    });
   });
 }
 
@@ -155,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderSwatches('gray-swatches',  grayColors);
   renderSpacing();
   initTheme();
-  initScrollSpy();
+  initRouter();
   initFigmaExport();
   initMobileNav();
 });

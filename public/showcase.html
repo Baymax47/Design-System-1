@@ -24,9 +24,15 @@
     <li><a href="#tokens" class="nav-link" data-section="tokens">Tokens</a></li>
     <li><a href="#typography" class="nav-link" data-section="typography">Typography</a></li>
     <li><a href="#colors" class="nav-link" data-section="colors">Colors</a></li>
-    <li><a href="#components" class="nav-link" data-section="components">Components</a></li>
+    <li><a href="#buttons" class="nav-link" data-section="buttons">Buttons</a></li>
+    <li class="mobile-only"><a href="#badges" class="nav-link" data-section="badges">Badges</a></li>
+    <li class="mobile-only"><a href="#cards" class="nav-link" data-section="cards">Cards</a></li>
     <li><a href="#forms" class="nav-link" data-section="forms">Forms</a></li>
+    <li class="mobile-only"><a href="#toggles" class="nav-link" data-section="toggles">Toggles</a></li>
     <li><a href="#feedback" class="nav-link" data-section="feedback">Feedback</a></li>
+    <li class="mobile-only"><a href="#modals" class="nav-link" data-section="modals">Modals</a></li>
+    <li class="mobile-only"><a href="#skeletons" class="nav-link" data-section="skeletons">Skeletons</a></li>
+    <li class="mobile-only"><a href="#codeblocks" class="nav-link" data-section="codeblocks">Code</a></li>
   </ul>
   <div class="nav-actions">
     <button class="btn btn-sm btn-ghost ds-theme-btn" id="theme-toggle" title="Toggle theme">🌙</button>
@@ -50,7 +56,7 @@
       <a href="#spacing"    class="sidenav-link" data-section="spacing"><span class="sidenav-link-icon">⇔</span> Spacing</a>
 
       <span class="sidenav-section-label">Components</span>
-      <a href="#components" class="sidenav-link" data-section="components"><span class="sidenav-link-icon">◻</span> Buttons</a>
+      <a href="#buttons" class="sidenav-link" data-section="buttons"><span class="sidenav-link-icon">◻</span> Buttons</a>
       <a href="#badges"     class="sidenav-link" data-section="badges"><span class="sidenav-link-icon">◈</span> Badges</a>
       <a href="#cards"      class="sidenav-link" data-section="cards"><span class="sidenav-link-icon">▣</span> Cards</a>
       <a href="#forms"      class="sidenav-link" data-section="forms"><span class="sidenav-link-icon">✎</span> Forms</a>
@@ -67,7 +73,8 @@
   <!-- Main Content -->
   <main class="ds-main">
 
-    <!-- ── Hero ──────────────────────────────────────────────────── -->
+    <div class="ds-page is-active" id="page-tokens">
+<!-- ── Hero ──────────────────────────────────────────────────── -->
     <section class="ds-hero">
       <span class="badge badge-default">v1.0.0</span>
       <h1 class="ds-hero-title">Design System</h1>
@@ -81,7 +88,7 @@
     </section>
 
     <!-- ── Tokens ─────────────────────────────────────────────────── -->
-    <section class="ds-section" id="tokens">
+    <section class="ds-section">
       <div class="ds-section-header">
         <h2>Design Tokens</h2>
         <p>All design decisions live as structured JSON, transformed into CSS custom properties, JS constants, SCSS variables, and Figma Variables by Style Dictionary.</p>
@@ -142,9 +149,10 @@
 }</pre>
       </div>
     </section>
+</div><!-- /#page-tokens -->
 
     <!-- ── Colors ─────────────────────────────────────────────────── -->
-    <section class="ds-section" id="colors">
+    <section class="ds-section ds-page" id="page-colors">
       <div class="ds-section-header">
         <h2>Colors</h2>
         <p>Full brand and semantic color palette. Every swatch maps to a CSS variable.</p>
@@ -155,15 +163,15 @@
       <div class="ds-swatch-row" id="gray-swatches"></div>
       <h3 class="ds-subsection-title">Semantic</h3>
       <div class="ds-semantic-swatches">
-        <div class="ds-semantic-swatch" style="--swatch:#22c55e"><span>Success</span><code>#22c55e</code></div>
-        <div class="ds-semantic-swatch" style="--swatch:#ef4444"><span>Error</span><code>#ef4444</code></div>
-        <div class="ds-semantic-swatch" style="--swatch:#eab308"><span>Warning</span><code>#eab308</code></div>
-        <div class="ds-semantic-swatch" style="--swatch:#3b82f6"><span>Info</span><code>#3b82f6</code></div>
+        <div class="ds-semantic-swatch" style="--swatch:#22c55e" title="Click to copy #22c55e" onclick="copyText('#22c55e', this)"><span>Success</span><code>#22c55e</code></div>
+        <div class="ds-semantic-swatch" style="--swatch:#ef4444" title="Click to copy #ef4444" onclick="copyText('#ef4444', this)"><span>Error</span><code>#ef4444</code></div>
+        <div class="ds-semantic-swatch" style="--swatch:#eab308" title="Click to copy #eab308" onclick="copyText('#eab308', this)"><span>Warning</span><code>#eab308</code></div>
+        <div class="ds-semantic-swatch" style="--swatch:#3b82f6" title="Click to copy #3b82f6" onclick="copyText('#3b82f6', this)"><span>Info</span><code>#3b82f6</code></div>
       </div>
     </section>
 
     <!-- ── Typography ─────────────────────────────────────────────── -->
-    <section class="ds-section" id="typography">
+    <section class="ds-section ds-page" id="page-typography">
       <div class="ds-section-header">
         <h2>Typography</h2>
         <p>Inter for UI, JetBrains Mono for code. A 9-step type scale from 0.75rem to 3rem.</p>
@@ -182,7 +190,7 @@
     </section>
 
     <!-- ── Spacing ────────────────────────────────────────────────── -->
-    <section class="ds-section" id="spacing">
+    <section class="ds-section ds-page" id="page-spacing">
       <div class="ds-section-header">
         <h2>Spacing</h2>
         <p>4px base grid. Use <code>--ds-spacing-{n}</code> tokens for consistent layout.</p>
@@ -191,7 +199,7 @@
     </section>
 
     <!-- ── Buttons ────────────────────────────────────────────────── -->
-    <section class="ds-section" id="components">
+    <section class="ds-section ds-page" id="page-buttons">
       <div class="ds-section-header">
         <h2>Buttons</h2>
         <p>Five variants × three sizes × loading and disabled states. Use <code>.btn .btn-{variant} .btn-{size}</code>.</p>
@@ -244,7 +252,7 @@
     </section>
 
     <!-- ── Badges ─────────────────────────────────────────────────── -->
-    <section class="ds-section" id="badges">
+    <section class="ds-section ds-page" id="page-badges">
       <div class="ds-section-header">
         <h2>Badges</h2>
         <p>Status indicators and labels. <code>.badge .badge-{type}</code></p>
@@ -273,7 +281,7 @@
     </section>
 
     <!-- ── Cards ──────────────────────────────────────────────────── -->
-    <section class="ds-section" id="cards">
+    <section class="ds-section ds-page" id="page-cards">
       <div class="ds-section-header">
         <h2>Cards</h2>
         <p>Content containers with multiple surface variants.</p>
@@ -307,7 +315,7 @@
     </section>
 
     <!-- ── Forms ──────────────────────────────────────────────────── -->
-    <section class="ds-section" id="forms">
+    <section class="ds-section ds-page" id="page-forms">
       <div class="ds-section-header">
         <h2>Forms</h2>
         <p>Input, Textarea, and Select with full state coverage: default, focus, error, success, disabled.</p>
@@ -352,7 +360,7 @@
     </section>
 
     <!-- ── Toggles ────────────────────────────────────────────────── -->
-    <section class="ds-section" id="toggles">
+    <section class="ds-section ds-page" id="page-toggles">
       <div class="ds-section-header">
         <h2>Toggles &amp; Checkboxes</h2>
         <p>Accessible switch and checkbox components with spring animations.</p>
@@ -404,7 +412,7 @@
     </section>
 
     <!-- ── Feedback ───────────────────────────────────────────────── -->
-    <section class="ds-section" id="feedback">
+    <section class="ds-section ds-page" id="page-feedback">
       <div class="ds-section-header">
         <h2>Toast Notifications</h2>
         <p>Slide-in alerts with auto-dismiss and progress bar. Trigger via <code>Toast.success()</code>.</p>
@@ -421,7 +429,7 @@
     </section>
 
     <!-- ── Modals ─────────────────────────────────────────────────── -->
-    <section class="ds-section" id="modals">
+    <section class="ds-section ds-page" id="page-modals">
       <div class="ds-section-header">
         <h2>Modals</h2>
         <p>Focus-trapped dialogs with spring animation. Close with Escape, close button, or backdrop click.</p>
@@ -436,7 +444,7 @@
     </section>
 
     <!-- ── Tooltips ───────────────────────────────────────────────── -->
-    <section class="ds-section">
+    <section class="ds-section ds-page" id="page-tooltips">
       <div class="ds-section-header">
         <h2>Tooltips</h2>
         <p>CSS-only, 4 positions. Add <code>data-tooltip="text"</code> and optionally <code>data-tooltip-pos="top|bottom|left|right"</code>.</p>
@@ -460,7 +468,7 @@
     </section>
 
     <!-- ── Skeletons ──────────────────────────────────────────────── -->
-    <section class="ds-section" id="skeletons">
+    <section class="ds-section ds-page" id="page-skeletons">
       <div class="ds-section-header">
         <h2>Skeleton Loaders</h2>
         <p>Shimmer placeholders for async content. Use <code>.skeleton</code> + shape modifiers.</p>
@@ -482,7 +490,7 @@
     </section>
 
     <!-- ── Code Blocks ────────────────────────────────────────────── -->
-    <section class="ds-section" id="codeblocks">
+    <section class="ds-section ds-page" id="page-codeblocks">
       <div class="ds-section-header">
         <h2>Code Blocks</h2>
         <p>Dark syntax container with one-click copy. Works for any language snippet.</p>

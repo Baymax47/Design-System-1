@@ -73,6 +73,9 @@ body {
 
 @media (max-width: 900px) {
   .ds-sidebar { display: none; }
+  .ds-nav { padding-right: 16px; }
+  .ds-nav > div { justify-content: flex-end; }
+  .ds-nav .btn { margin-right: 16px; } /* Space between export btn and hamburger */
 }
 
 /* ─── Main ───────────────────────────────────────────────────── */
@@ -180,11 +183,23 @@ body {
   margin-bottom: 14px;
 }
 
-/* ─── Section divider ── */
+/* ─── Section divider (REMOVED: Now using page routing) ── */
 .ds-section + .ds-section {
   padding-top: 0;
-  border-top: 1px solid var(--border);
-  padding-top: 48px;
+}
+
+/* ─── Pages Router ───────────────────────────────────────────── */
+.ds-page:not(.is-active) {
+  display: none;
+}
+.ds-page.is-active {
+  display: block;
+  animation: page-fade-in 300ms ease forwards;
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ─── Token grid ─────────────────────────────────────────────── */
@@ -269,6 +284,12 @@ body {
   border-radius: 12px;
   border-top: 3px solid var(--swatch);
   min-width: 90px;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.ds-semantic-swatch:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 .ds-semantic-swatch span {
   font-size: 0.72rem;
