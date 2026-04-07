@@ -245,4 +245,84 @@ document.addEventListener('DOMContentLoaded', () => {
   initRouter();
   initFigmaExport();
   initMobileNav();
+  initCodeTabs();
 });
+
+/* ─── Multi-Language Snippet Tabs ────────────────────────────────────────── */
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function initCodeTabs() {
+  if (typeof codeSnippets === 'undefined') return;
+
+  const sections = document.querySelectorAll('.ds-section[id]');
+  
+  sections.forEach(sec => {
+    const sectionId = sec.id;
+    const snippetData = codeSnippets[sectionId];
+    if (!snippetData) return;
+
+    const previewBlock = sec.querySelector('.ds-preview-block');
+    if (!previewBlock) return;
+
+    const tabsContainer = document.createElement('div');
+    tabsContainer.className = 'code-tabs';
+
+    const headers = document.createElement('div');
+    headers.className = 'code-tab-headers';
+    
+    const langs = [
+      { id: 'react', label: 'React' },
+      { id: 'html', label: 'HTML' },
+      { id: 'css', label: 'CSS' },
+      { id: 'ts', label: 'TypeScript' }
+    ];
+
+    const contentWrapper = document.createElement('div');
+    contentWrapper.className = 'code-tab-content';
+
+    let firstActive = false;
+
+    langs.forEach((lang, i) => {
+      const codeStr = snippetData[lang.id];
+      if (!codeStr) return;
+
+      const btn = document.createElement('button');
+      btn.className = 'code-tab-btn' + (!firstActive ? ' active' : '');
+      btn.textContent = lang.label;
+      btn.dataset.lang = lang.id;
+      
+      const panel = document.createElement('pre');
+      panel.className = 'code-panel code-block' + (!firstActive ? ' active' : '');
+      panel.dataset.lang = lang.id;
+      
+      panel.innerHTML = `<div class="code-block-header">
+        <span class="code-block-lang">${lang.label}</span>
+        <button class="code-block-copy" onclick="copyText(this.nextElementSibling.innerText, this)">Copy</button>
+        </div><code>${escapeHtml(codeStr)}</code>`;
+
+      btn.addEventListener('click', () => {
+        headers.querySelectorAll('.code-tab-btn').forEach(b => b.classList.remove('active'));
+        contentWrapper.querySelectorAll('.code-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        panel.classList.add('active');
+      });
+
+      headers.appendChild(btn);
+      contentWrapper.appendChild(panel);
+      firstActive = true;
+    });
+
+    if (firstActive) {
+      tabsContainer.appendChild(headers);
+      tabsContainer.appendChild(contentWrapper);
+      previewBlock.insertAdjacentElement('afterend', tabsContainer);
+    }
+  });
+}
