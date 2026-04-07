@@ -163,20 +163,65 @@ function initFigmaExport() {
 function initMobileNav() {
   const hamburger = document.getElementById('nav-hamburger');
   const links     = document.getElementById('nav-links');
+  const nav       = document.getElementById('top-nav');
+  if (!hamburger || !links) return;
 
-  function toggle() {
-    const open = links.classList.toggle('is-open');
-    hamburger.classList.toggle('is-open', open);
-    hamburger.setAttribute('aria-expanded', open);
+  // Create overlay backdrop
+  let overlay = document.querySelector('.nav-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
   }
 
-  hamburger?.addEventListener('click', toggle);
+  function openDrawer() {
+    links.classList.add('is-open');
+    hamburger.classList.add('is-open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    overlay.classList.add('is-visible');
+    document.body.style.overflow = 'hidden'; // Prevent background scroll
+  }
 
-  // Close on nav link click
-  links?.querySelectorAll('.nav-link').forEach(link => {
+  function closeDrawer() {
+    links.classList.remove('is-open');
+    hamburger.classList.remove('is-open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('is-visible');
+    document.body.style.overflow = '';
+  }
+
+  function toggleDrawer(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (links.classList.contains('is-open')) {
+      closeDrawer();
+    } else {
+      openDrawer();
+    }
+  }
+
+  // Use both click and touchend for maximum compatibility
+  hamburger.addEventListener('click', toggleDrawer);
+  hamburger.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    toggleDrawer(e);
+  }, { passive: false });
+
+  // Close on overlay click
+  overlay.addEventListener('click', closeDrawer);
+
+  // Close when a nav link is clicked
+  links.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
-      if (links.classList.contains('is-open')) toggle();
+      closeDrawer();
     });
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && links.classList.contains('is-open')) {
+      closeDrawer();
+    }
   });
 }
 

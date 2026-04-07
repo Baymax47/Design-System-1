@@ -12,7 +12,8 @@
   position: sticky;
   top: 0;
   z-index: var(--ds-z-index-sticky, 200);
-  gap: 24px;
+  gap: 16px;
+  overflow: hidden;
 }
 
 .nav-brand {
@@ -100,17 +101,18 @@
 .nav-hamburger {
   display: none;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   cursor: pointer;
   background: none;
   border: none;
-  padding: 6px;
+  padding: 8px;
   border-radius: 8px;
   transition: background 150ms ease;
-  box-shadow: none !important;
-  transform: none !important;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .nav-hamburger:hover { background: rgba(255,255,255,0.06); }
+.nav-hamburger:active { background: rgba(255,255,255,0.1); }
 
 .nav-hamburger span {
   display: block;
@@ -119,18 +121,38 @@
   border-radius: 2px;
   transition: transform 300ms ease, opacity 300ms ease, width 300ms ease;
 }
-.nav-hamburger span:nth-child(1) { width: 20px; }
-.nav-hamburger span:nth-child(2) { width: 14px; }
-.nav-hamburger span:nth-child(3) { width: 18px; }
+.nav-hamburger span:nth-child(1) { width: 22px; }
+.nav-hamburger span:nth-child(2) { width: 16px; }
+.nav-hamburger span:nth-child(3) { width: 22px; }
 
-.nav-hamburger.is-open span:nth-child(1) { transform: rotate(45deg) translateY(9px); width: 20px; }
+.nav-hamburger.is-open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
 .nav-hamburger.is-open span:nth-child(2) { opacity: 0; width: 0; }
-.nav-hamburger.is-open span:nth-child(3) { transform: rotate(-45deg) translateY(-9px); width: 20px; }
+.nav-hamburger.is-open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-/* ─── Mobile drawer ── */
+/* ─── Mobile overlay backdrop ── */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 198;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.nav-overlay.is-visible {
+  display: block;
+  opacity: 1;
+}
+
+/* ─── Mobile responsive ── */
 @media (max-width: 900px) {
-  .nav-hamburger { display: flex; z-index: 201; position: relative; }
+  .nav {
+    padding: 0 16px;
+    gap: 12px;
+    overflow: visible; /* Allow hamburger to show properly */
+  }
 
+  /* Hide desktop links and non-essential actions */
   .nav-links {
     position: fixed;
     top: 0;
@@ -138,20 +160,22 @@
     bottom: 0;
     left: auto;
     width: 280px;
+    max-width: 80vw;
     background: rgba(8, 8, 16, 0.98);
     border-left: 1px solid var(--ds-color-border-default, #1e1e30);
     flex-direction: column;
-    align-items: flex-start;
-    padding: 80px 24px 24px;
-    gap: 8px;
+    align-items: stretch;
+    padding: 80px 16px 24px;
+    gap: 4px;
     transform: translateX(100%);
     opacity: 0;
     pointer-events: none;
-    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms ease;
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease;
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    z-index: 199;
+    z-index: 300;
     overflow-y: auto;
+    flex: none; /* CRITICAL: Remove flex:1 so it doesn't take nav space */
   }
 
   [data-theme="light"] .nav-links {
@@ -162,11 +186,35 @@
     transform: translateX(0);
     opacity: 1;
     pointer-events: auto;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
   }
 
-  .nav-link { width: 100%; border-radius: 10px; padding: 12px 16px; font-size: 1rem; }
-  .mobile-only { display: block; }
+  .nav-link {
+    width: 100%;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 1rem;
+  }
+
+  .mobile-only { display: list-item; }
+
+  /* Hide the Export to Figma on mobile, keep theme toggle */
+  .nav-actions #figma-export-btn { display: none; }
+
+  /* Hamburger: show it, far-right */
+  .nav-hamburger {
+    display: flex;
+    z-index: 301;
+    margin-left: auto; /* Push to the right edge of the nav */
+    flex-shrink: 0;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 400px) {
+  .nav { padding: 0 12px; }
+  .nav-brand { font-size: 0.875rem; gap: 8px; }
+  .nav-brand-logo { width: 24px; height: 24px; font-size: 12px; }
 }
 
 /* ─── Sidebar nav variant ── */

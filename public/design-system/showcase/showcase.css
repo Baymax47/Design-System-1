@@ -73,9 +73,7 @@ body {
 
 @media (max-width: 900px) {
   .ds-sidebar { display: none; }
-  .ds-nav { padding-right: 16px; }
-  .ds-nav > div { justify-content: flex-end; }
-  .ds-nav .btn { margin-right: 16px; } /* Space between export btn and hamburger */
+  .ds-main { max-width: 100%; }
 }
 
 /* ─── Main ───────────────────────────────────────────────────── */
